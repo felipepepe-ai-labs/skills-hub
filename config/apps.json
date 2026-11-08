@@ -17,7 +17,7 @@
           "%USERPROFILE%/.copilot/skills"
         ]
       },
-      "projects": ["workflow"],
+      "projects": ["casa", "workflow"],
       "skillVariants": ["common", "copilot-only"],
       "configFiles": [
         {
@@ -51,7 +51,7 @@
           "%USERPROFILE%/.claude/skills"
         ]
       },
-      "projects": ["workflow"],
+      "projects": ["casa", "workflow"],
       "skillVariants": ["common", "claude-only"],
       "agentSources": [
         "agents/common",
@@ -85,7 +85,7 @@
           "%USERPROFILE%/.codex/skills"
         ]
       },
-      "projects": ["workflow"],
+      "projects": ["casa", "workflow"],
       "skillVariants": ["common"]
     },
     {
@@ -105,7 +105,7 @@
           "%USERPROFILE%/.agents/skills"
         ]
       },
-      "projects": ["workflow"],
+      "projects": ["casa", "workflow"],
       "skillVariants": ["common"]
     },
     {

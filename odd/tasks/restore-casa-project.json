@@ -1,0 +1,85 @@
+{
+  "feature": "restore-casa-project",
+  "objective": "Recreate the casa project in skills-hub and import the 9 own intranet/infra skills from the current machine, which is the source of truth for valid skills.",
+  "problem": "The casa project was removed in commit 15a0c2c (OpenSpec migration) and the hub only has projects/workflow. The 9 own intranet skills living on this machine have no home in the hub, while README, docs/skills-governance.md and scripts/validate-skill-system.sh still assume projects/casa exists.",
+  "scope": [
+    "projects/casa/skills/common/{atlas-docs,deploy-casa,nueva-casa,gitflow-casa,poc-init,project-workflow,trello-api-client,infisical-admin-mcp,infisical-vault}",
+    "projects/casa/skills/claude-only/.gitkeep",
+    "projects/casa/skills/copilot-only/.gitkeep",
+    "projects/casa/README.md",
+    "config/projects.json",
+    "config/apps.json",
+    "CHANGELOG.md"
+  ],
+  "constraints": [
+    "Each SKILL.md under 300 lines; frontmatter name equals the directory",
+    "No 'mente'/'mente.casa' references (use atlas)",
+    "Hub GitFlow: feature/* from develop, PR to develop, no direct commits to develop/main",
+    "Conventional commits, no AI attribution (user CLAUDE.md)",
+    "casa-ops (old consolidated skill) is NOT restored",
+    "Do not run sync: the clone lives on NAS, which violates the hub local-only invariant",
+    "Skills copied with cp -a from the current machine, not rewritten by hand"
+  ],
+  "tdd": { "mode": "off", "source": "content/config change, no test runner applies", "runner": "doctor-skills.sh + lint.sh + validate-skill-system.sh + security-scan-skills.sh" },
+  "route": "delegated direct (writer trigger: 2+ non-trivial files)",
+  "tasks": [
+    {
+      "id": "T1",
+      "step": 1,
+      "description": "Create projects/casa layout, copy the 9 skills with cp -a, restore projects/casa/README.md from 15a0c2c^.",
+      "tool": "Agent",
+      "args": { "subagent_type": "general-purpose", "model": "sonnet" },
+      "reason": "Mechanical copy from the machine of record; avoids transcription errors.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Writer subagent a1fc39d7 (cp -a). Parent verification: diff -r of the 9 copies against ~/.claude/skills is identical; 20 files under projects/casa; no pycache.",
+      "commit": "see branch HEAD: feat(casa): recreate the casa project with 9 intranet skills",
+      "substeps": []
+    },
+    {
+      "id": "T2",
+      "step": 2,
+      "description": "Wire the project: config/projects.json casa entry; config/apps.json projects [casa, workflow] for copilot, claude, codex, agents; CHANGELOG bullet.",
+      "tool": "Edit",
+      "args": { "files": ["config/projects.json", "config/apps.json", "CHANGELOG.md"] },
+      "reason": "Declares the project boundary and exposes it to the apps that received it before 15a0c2c.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "config/projects.json and config/apps.json parse with jq (exit 0); apps copilot, claude, codex, agents now list [casa, workflow], opencode untouched; CHANGELOG bullet added under Sin publicar.",
+      "commit": "same commit as T1",
+      "substeps": []
+    },
+    {
+      "id": "T3",
+      "step": 3,
+      "description": "Validate (wc -l, name==dir, mente grep, doctor-skills, lint, validate-skill-system, security-scan), assess risk, commit.",
+      "tool": "Bash",
+      "args": { "commands": ["bash scripts/doctor-skills.sh", "./scripts/lint.sh", "bash scripts/validate-skill-system.sh", "bash scripts/security-scan-skills.sh", "gentle-ai review assess", "git commit"] },
+      "reason": "Hub pre-PR validation; ODD closes each task with a work-unit commit.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "doctor-skills.sh exit 0 (38 skills exposed, was 29, 0 warnings); lint.sh exit 0 (shellcheck not installed, skipped); validate-skill-system.sh exit 0; security-scan-skills.sh exit 0.",
+      "commit": "same commit as T1",
+      "substeps": []
+    }
+  ],
+  "acceptance": [
+    "projects/casa/skills/common holds the 9 skill directories",
+    "config/projects.json and config/apps.json parse with jq and list casa",
+    "doctor-skills.sh, lint.sh, validate-skill-system.sh and security-scan-skills.sh exit 0 (shellcheck skipped if missing)",
+    "git show --stat HEAD lists only projects/casa/**, the two config files, CHANGELOG.md and this ODD document"
+  ],
+  "delivery": {
+    "strategy": "ask-on-risk",
+    "forecast_changed_lines": 2500,
+    "slice_note": "Mostly copied skill content (about 2000 lines) plus small config edits. Copied content is generated-like import, not authored; single commit expected.",
+    "branch": "feature/restore-casa-project",
+    "base": "origin/develop",
+    "note": "The branch tracks origin/develop: push ONLY with 'git push -u origin feature/restore-casa-project'. Push and PR need explicit user confirmation. CHANGELOG [Sin publicar] may conflict trivially with the pending feature/security-by-default-skills PR."
+  },
+  "progress": "T1-T3 done and committed on feature/restore-casa-project. Not pushed.",
+  "evidence": [
+    "check.sh was not run for this feature: it reports pre-existing drift between repo and installed targets and sync is out of scope"
+  ],
+  "next_step": "Native review assessment of the commit, then ask the user to confirm push (git push -u origin feature/restore-casa-project) and PR to develop."
+}
