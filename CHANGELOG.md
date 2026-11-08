@@ -7,6 +7,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Añadido
+
+- Se incorporan las skills propias `checked-loop` y `skills-catalog-maintainer` a `projects/workflow/skills/common`, y se corrigen las rutas a `skills-catalog-maintainer` en `CONTRIBUTING.md` y `docs/skills-governance.md`.
+
 ## [5.0.0] - 2026-08-22
 
 ### Añadido

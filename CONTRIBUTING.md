@@ -57,7 +57,7 @@ Ver:
 - Dentro de cada proyecto: `skills/common`, `skills/copilot-only` y `skills/claude-only`.
 - `prompts/`: prompts e instrucciones para VS Code.
 - `sdd-propose` es la skill canónica para propuestas SDD; `sdd-proposal` queda solo como alias legacy de compatibilidad.
-- `projects/casa/skills/common/skills-catalog-maintainer` es la referencia para auditar y refactorizar el propio catálogo.
+- `projects/workflow/skills/common/skills-catalog-maintainer` es la referencia para auditar y refactorizar el propio catálogo.
 
 ## Checklist rapido antes de PR
 

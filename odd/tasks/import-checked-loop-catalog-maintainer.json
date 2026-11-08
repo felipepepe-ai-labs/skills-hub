@@ -1,0 +1,83 @@
+{
+  "feature": "import-checked-loop-catalog-maintainer",
+  "objective": "Import the own skills checked-loop and skills-catalog-maintainer from the reference machine into projects/workflow/skills/common and fix the dangling path references to skills-catalog-maintainer.",
+  "problem": "Both skills are valid on the reference machine but absent from the hub. CONTRIBUTING.md:60 and docs/skills-governance.md:22 point to projects/casa/skills/common/skills-catalog-maintainer, which does not exist in develop.",
+  "scope": [
+    "projects/workflow/skills/common/checked-loop",
+    "projects/workflow/skills/common/skills-catalog-maintainer",
+    "CONTRIBUTING.md",
+    "docs/skills-governance.md",
+    "CHANGELOG.md"
+  ],
+  "constraints": [
+    "Copy the skills as-is with cp -a (the reference machine holds the valid versions)",
+    "Each SKILL.md under 300 lines; frontmatter name equals the directory",
+    "If security-scan-skills.sh flags either skill: stop and report, do not edit the skills",
+    "Hub GitFlow: feature/* from develop, PR to develop",
+    "Conventional commits, no AI attribution (user CLAUDE.md)",
+    "Do not run sync or check.sh",
+    "Do not adapt skills-catalog-maintainer to the projects/<project>/skills layout (out of scope)"
+  ],
+  "tdd": { "mode": "off", "source": "content/docs change, no test runner applies", "runner": "diff -r + doctor-skills.sh + lint.sh + security-scan-skills.sh" },
+  "route": "delegated direct (writer trigger: 2+ files)",
+  "tasks": [
+    {
+      "id": "T1",
+      "step": 1,
+      "description": "Copy both skills with cp -a, fix the two path references in CONTRIBUTING.md and docs/skills-governance.md, add the CHANGELOG bullet.",
+      "tool": "Agent",
+      "args": { "subagent_type": "general-purpose", "model": "sonnet" },
+      "reason": "Content is fully specified in the approved plan.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Writer subagent a46ed380 (cp -a, Edit). Parent verification: diff -r of both copies against ~/.claude/skills is identical; both docs now reference the projects/workflow path and no projects/casa path remains.",
+      "commit": "see branch HEAD: feat(workflow): add checked-loop and skills-catalog-maintainer skills",
+      "substeps": []
+    },
+    {
+      "id": "T2",
+      "step": 2,
+      "description": "Verify copies are identical to the machine, line counts and names, references fixed, validators exit 0.",
+      "tool": "Bash",
+      "args": { "commands": ["diff -r", "wc -l", "grep", "bash scripts/doctor-skills.sh", "./scripts/lint.sh", "bash scripts/security-scan-skills.sh"] },
+      "reason": "Pre-PR hub validation plus a faithfulness check of the copies.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "checked-loop 165 lines and skills-catalog-maintainer 79 lines (<300), name equals directory; doctor-skills.sh exit 0 (31 skills exposed, was 29, 0 warnings); lint.sh exit 0 (shellcheck not installed, skipped); security-scan-skills.sh exit 0 (git reset --hard in checked-loop was not flagged).",
+      "commit": "same commit as T1",
+      "substeps": []
+    },
+    {
+      "id": "T3",
+      "step": 3,
+      "description": "Assess risk with gentle-ai review assess and make one conventional commit.",
+      "tool": "Bash",
+      "args": { "commands": ["gentle-ai review assess", "git commit"] },
+      "reason": "ODD closes each task with a work-unit commit; native review stays user-owned.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Risk assessment and commit done; see progress for the review outcome.",
+      "commit": "same commit as T1",
+      "substeps": []
+    }
+  ],
+  "acceptance": [
+    "both copies are identical to the machine directories",
+    "CONTRIBUTING.md and docs/skills-governance.md reference the projects/workflow path",
+    "doctor-skills.sh, lint.sh and security-scan-skills.sh exit 0",
+    "git show --stat HEAD lists the two skill directories, two docs, CHANGELOG and this ODD document"
+  ],
+  "delivery": {
+    "strategy": "ask-on-risk",
+    "forecast_changed_lines": 450,
+    "branch": "feature/import-checked-loop-catalog-maintainer",
+    "base": "origin/develop",
+    "note": "The branch tracks origin/develop: push ONLY with 'git push -u origin feature/import-checked-loop-catalog-maintainer'. Push and PR need explicit user confirmation. CHANGELOG [Sin publicar] may conflict trivially with PRs #92, #93 and #94."
+  },
+  "progress": "T1-T3 done and committed on feature/import-checked-loop-catalog-maintainer. Not pushed. Review assessment result: see the Engram mirror.",
+  "evidence": [
+    "CHANGELOG 5.0.0 documents that casa and skills-catalog-maintainer were removed on purpose; this partially reverses it by user decision",
+    "skills-catalog-maintainer describes the old layout (skills/common) instead of projects/<project>/skills/common; reported, not fixed"
+  ],
+  "next_step": "User confirms push (git push -u origin feature/import-checked-loop-catalog-maintainer) and PR to develop."
+}
