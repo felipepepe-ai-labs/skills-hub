@@ -7,6 +7,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Añadido
+
+- Se documentan 19 skills de terceros (bundle HyperFrames y GSAP oficial) como dependencias externas en `config/external-skills.json` y `docs/external-skills.md`, sin copiar su contenido al hub.
+
 ## [5.0.0] - 2026-08-22
 
 ### Añadido

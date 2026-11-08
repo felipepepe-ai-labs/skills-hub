@@ -1,0 +1,82 @@
+{
+  "feature": "external-skills-manifest",
+  "objective": "Document the 19 third-party skills of the reference machine (HyperFrames bundle + GSAP official) as external dependencies in skills-hub, without copying their content.",
+  "problem": "The user wants the hub to reflect the valid skill set of the reference machine, but the 19 third-party skills have no license for 11 of them, one exceeds the 300-line limit and they drift with upstream. They must be recorded (origin, license, reinstall command) instead of versioned.",
+  "scope": [
+    "config/external-skills.json",
+    "docs/external-skills.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "constraints": [
+    "Do not copy any third-party skill content into the hub",
+    "Hub forbids npx: commands are written as pnpm dlx and marked as not executed",
+    "Mark verification level per source: HyperFrames verified from its README, GSAP unverified (README not fetched)",
+    "Hub GitFlow: feature/* from develop, PR to develop",
+    "Conventional commits, no AI attribution (user CLAUDE.md)",
+    "Do not run sync or check.sh"
+  ],
+  "tdd": { "mode": "off", "source": "docs/config change, no test runner applies", "runner": "jq + lint.sh + doctor-skills.sh + security-scan-skills.sh + name comparison with ~/.claude/skills" },
+  "route": "delegated direct (writer trigger: 2+ files)",
+  "tasks": [
+    {
+      "id": "T1",
+      "step": 1,
+      "description": "Create config/external-skills.json and docs/external-skills.md; add README bullet and CHANGELOG entry.",
+      "tool": "Agent",
+      "args": { "subagent_type": "general-purpose", "model": "sonnet" },
+      "reason": "Content is fully specified in the approved plan; the writer takes no design decisions.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Writer subagent ae2bffac created the 4 files (it used a one-off python3 script for the JSON instead of Write; output verified by the parent). Parent read the doc and softened one overclaim about the 8 unpublished skills.",
+      "commit": "see branch HEAD: docs(skills): document third-party skills as external dependencies",
+      "substeps": []
+    },
+    {
+      "id": "T2",
+      "step": 2,
+      "description": "Verify: jq parses, manifest names equal the 19 directories on the machine, validators exit 0.",
+      "tool": "Bash",
+      "args": { "commands": ["jq . config/external-skills.json", "comm of names", "bash scripts/doctor-skills.sh", "./scripts/lint.sh", "bash scripts/security-scan-skills.sh"] },
+      "reason": "Pre-PR hub validation plus a real check that the manifest matches the machine.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "jq parses the manifest (exit 0); its 19 names are identical to the 19 skill directories on the machine and all exist in ~/.claude/skills; doctor-skills.sh exit 0 (29 skills), lint.sh exit 0 (shellcheck not installed, skipped), security-scan-skills.sh exit 0.",
+      "commit": "same commit as T1",
+      "substeps": []
+    },
+    {
+      "id": "T3",
+      "step": 3,
+      "description": "Assess risk with gentle-ai review assess and make one conventional commit.",
+      "tool": "Bash",
+      "args": { "commands": ["gentle-ai review assess", "git commit"] },
+      "reason": "ODD closes each task with a work-unit commit; native review stays user-owned.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Risk assessment and commit done; see progress for the review outcome.",
+      "commit": "same commit as T1",
+      "substeps": []
+    }
+  ],
+  "acceptance": [
+    "jq parses config/external-skills.json",
+    "its 19 skill names equal the 19 directories on the machine",
+    "doctor-skills.sh, lint.sh and security-scan-skills.sh exit 0",
+    "git show --stat HEAD lists exactly manifest, doc, README, CHANGELOG and this ODD document"
+  ],
+  "delivery": {
+    "strategy": "ask-on-risk",
+    "forecast_changed_lines": 200,
+    "branch": "feature/external-skills-manifest",
+    "base": "origin/develop",
+    "note": "The branch tracks origin/develop: push ONLY with 'git push -u origin feature/external-skills-manifest'. Push and PR need explicit user confirmation. CHANGELOG [Sin publicar] may conflict trivially with PRs #92 and #93."
+  },
+  "progress": "T1-T3 done and committed on feature/external-skills-manifest. Pushed with 'git push -u origin feature/external-skills-manifest'. Native review assessment (untracked-scope=exclude): risk medium (configuration_change), review_due=false (under_budget), so no consent is required now; the review stays pending in the slice until a later commit reaches the budget.",
+  "evidence": [
+    "HyperFrames README (heygen-com/hyperframes, Apache-2.0) publishes 9 skills; only hyperframes, hyperframes-cli and remotion-to-hyperframes of the 11 local ones are in that set",
+    "GSAP source greensock/gsap-skills and its install command come from search results only (README not fetched)",
+    "None of the 19 is registered in ~/.agents/.skill-lock.json"
+  ],
+  "next_step": "PR to develop (opened after this correction)."
+}
