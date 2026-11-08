@@ -72,11 +72,11 @@
     "base": "origin/develop",
     "note": "The branch tracks origin/develop: push ONLY with 'git push -u origin feature/external-skills-manifest'. Push and PR need explicit user confirmation. CHANGELOG [Sin publicar] may conflict trivially with PRs #92 and #93."
   },
-  "progress": "T1-T3 done and committed on feature/external-skills-manifest. Pushed with 'git push -u origin feature/external-skills-manifest'. Native review not started: its consent is a user decision.",
+  "progress": "T1-T3 done and committed on feature/external-skills-manifest. Pushed with 'git push -u origin feature/external-skills-manifest'. Native review assessment (untracked-scope=exclude): risk medium (configuration_change), review_due=false (under_budget), so no consent is required now; the review stays pending in the slice until a later commit reaches the budget.",
   "evidence": [
     "HyperFrames README (heygen-com/hyperframes, Apache-2.0) publishes 9 skills; only hyperframes, hyperframes-cli and remotion-to-hyperframes of the 11 local ones are in that set",
     "GSAP source greensock/gsap-skills and its install command come from search results only (README not fetched)",
     "None of the 19 is registered in ~/.agents/.skill-lock.json"
   ],
-  "next_step": "User answers the native review consent (granted/declined) and decides the PR to develop."
+  "next_step": "PR to develop (opened after this correction)."
 }
