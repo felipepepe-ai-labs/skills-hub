@@ -1,0 +1,82 @@
+{
+  "feature": "security-by-default-skills",
+  "objective": "Port the 'security by default and by design' rule to the 4 skills that exist in skills-hub: session-start, session-end, sdd, db-architect.",
+  "problem": "The rule was added only to local copies in ~/.claude/skills (and pi). skills-hub is the single source of truth and sync overwrites the local copies, so the change would be lost.",
+  "scope": [
+    "projects/workflow/skills/common/session-start/SKILL.md",
+    "projects/workflow/skills/common/session-end/SKILL.md",
+    "projects/workflow/skills/common/sdd/SKILL.md",
+    "projects/workflow/skills/common/db-architect/SKILL.md",
+    "CHANGELOG.md"
+  ],
+  "constraints": [
+    "Each SKILL.md stays under 300 lines",
+    "Hub GitFlow: feature/* from develop, PR to develop, no direct commits to develop/main",
+    "Conventional commits, no AI attribution (user CLAUDE.md)",
+    "The 7 skills absent from the hub are out of scope (user decision)",
+    "Do not run sync: the clone lives on NAS, which violates the hub local-only invariant"
+  ],
+  "tdd": { "mode": "off", "source": "docs-only change, no test runner applies", "runner": "doctor-skills.sh + lint.sh + grep/wc readback" },
+  "route": "delegated direct (writer trigger: 2+ non-trivial files; subagent a48be609 applied the edits with Edit)",
+  "tasks": [
+    {
+      "id": "T1",
+      "step": 1,
+      "description": "Insert the security rule and Security briefing/summary line in the 4 SKILL.md and bump metadata.version (minor).",
+      "tool": "Agent",
+      "args": { "subagent_type": "general-purpose", "model": "sonnet" },
+      "reason": "Hub versions differ from the ~/.claude copies, so the rule is inserted by hand at hub-specific anchors.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "Parent diff review: 4 SKILL.md +12/-4; session-start 218 lines, session-end 177, sdd 278, db-architect 87 (all <300); versions 1.8 / 1.2 / 3.1 / 1.2. Example Output sub-edit skipped: session-start Example Output only points to references/example-output.md.",
+      "commit": "see branch HEAD: docs(skills): add security by default and by design to session, sdd and db-architect skills",
+      "substeps": []
+    },
+    {
+      "id": "T2",
+      "step": 2,
+      "description": "Add a Spanish bullet under '## [Sin publicar]' in CHANGELOG.md.",
+      "tool": "Edit",
+      "args": { "file": "CHANGELOG.md" },
+      "reason": "Keep a Changelog convention of the hub.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "CHANGELOG.md +4 lines under ## [Sin publicar] ('### Cambiado' + bullet).",
+      "commit": "same commit as T1",
+      "substeps": []
+    },
+    {
+      "id": "T3",
+      "step": 3,
+      "description": "Validate (wc -l, grep, doctor-skills.sh, lint.sh) and make one conventional commit.",
+      "tool": "Bash",
+      "args": { "commands": ["wc -l", "grep", "bash scripts/doctor-skills.sh", "./scripts/lint.sh", "git commit"] },
+      "reason": "Hub pre-PR validation; ODD closes each task with a work-unit commit.",
+      "mode": "standard",
+      "status": "done",
+      "evidence": "doctor-skills.sh exit 0 (29 skills, 0 warnings); lint.sh exit 0 (shellcheck not installed locally, step skipped); doctor.sh exit 0; check.sh exit 1 = drift between repo and installed targets (e.g. output-styles), not caused by this change and expected because targets were not synced.",
+      "commit": "same commit as T1",
+      "substeps": []
+    }
+  ],
+  "acceptance": [
+    "grep finds the rule in the 4 SKILL.md",
+    "All 4 SKILL.md under 300 lines",
+    "doctor-skills.sh and lint.sh exit 0 (doctor.sh/check.sh may abort on NAS and are reported as unavailable)",
+    "git show --stat HEAD lists the 4 SKILL.md, CHANGELOG.md and this ODD document"
+  ],
+  "delivery": {
+    "strategy": "ask-on-risk",
+    "forecast_changed_lines": 30,
+    "actual_changed_lines": 20,
+    "branch": "feature/security-by-default-skills",
+    "base": "origin/develop",
+    "note": "Push and PR to develop need explicit user confirmation. The branch was created tracking origin/develop: push with 'git push -u origin feature/security-by-default-skills' so it never targets develop."
+  },
+  "progress": "T1-T3 done and committed on feature/security-by-default-skills. Not pushed.",
+  "evidence": [
+    "Native RDD review assessment (gentle-ai review assess) was not run in this session; pending as a user decision before the PR",
+    "check.sh drift exit 1 is pre-existing target drift, reported honestly"
+  ],
+  "next_step": "Ask the user to confirm push (git push -u origin feature/security-by-default-skills) and PR to develop in felipepepe-ai-labs/skills-hub."
+}

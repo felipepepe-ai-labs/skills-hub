@@ -4,7 +4,7 @@ description: "Structured session close: separates Engram operational memory from
 license: Apache-2.0
 metadata:
   author: Felipe Perez
-  version: "1.1"
+  version: "1.2"
 ---
 
 ## When to Use This Skill
@@ -130,6 +130,8 @@ Display a table of what was saved:
 | Atlas | `Proyectos/vi-sdd.md` | architecture | edit (section X) |
 | Atlas | `Stack/Languages/Rust.md` | pattern | edit (section Y) |
 
+**Security:** secure by default and by design applied to this session's implementation · pending findings: <list> | none
+
 And briefly mention what was decided NOT to save and why (e.g. "trivial", "already in X").
 
 If a journal was created/modified: include the file path.
@@ -145,6 +147,7 @@ If the codebase graph was re-indexed (Step 2.5): mention the new indexed commit;
 - **Atlas-first**: when in doubt, default to Atlas. Only use Engram if the candidate is clearly temporal/tactical (a snapshot tied to current state, a resolved bug, a spec metric) per the Step 2 table.
 - **Respect project language**: if the project's CLAUDE.md is in Spanish, titles and content go in Spanish too.
 - **Do not silence errors**: if engram/atlas fails, report to the user what was left pending.
+- **Security by default and by design**: at close, check that the implementation done this session took security into account from the start (secure defaults, least privilege, validated input, no secrets in code). Save security decisions and findings as normal candidates (Step 1), report any pending finding in the summary, and never persist secrets, keys or tokens in Engram, Atlas or the logbook.
 
 ---
 
