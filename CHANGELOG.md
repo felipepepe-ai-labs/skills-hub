@@ -7,6 +7,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Añadido
+
+- Se recrea el proyecto `casa` (`projects/casa`) con 9 skills propias del intranet y la infraestructura: `atlas-docs`, `deploy-casa`, `nueva-casa`, `gitflow-casa`, `poc-init`, `project-workflow`, `trello-api-client`, `infisical-admin-mcp` e `infisical-vault`. Se vuelve a exponer en copilot, claude, codex y agents.
+
 ## [5.0.0] - 2026-08-22
 
 ### Añadido

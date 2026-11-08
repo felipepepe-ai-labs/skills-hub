@@ -1,6 +1,16 @@
 {
   "projects": [
     {
+      "id": "casa",
+      "description": "Skills ligadas al intranet .casa, Atlas, Infisical, Trello y despliegues domésticos.",
+      "root": "projects/casa",
+      "skillSources": {
+        "common": "projects/casa/skills/common",
+        "claude-only": "projects/casa/skills/claude-only",
+        "copilot-only": "projects/casa/skills/copilot-only"
+      }
+    },
+    {
       "id": "workflow",
       "description": "Skills portables para desarrollo, agentes, SDD, análisis, seguridad y documentación.",
       "root": "projects/workflow",
