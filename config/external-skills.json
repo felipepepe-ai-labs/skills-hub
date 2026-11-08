@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "description": "Skills de terceros que el hub no versiona. Se documentan aquí su origen, licencia y cómo reinstalarlas.",
+  "referenceMachine": "~/.claude/skills",
+  "observedOn": "2026-11-08",
+  "sources": [
+    {
+      "id": "hyperframes",
+      "repo": "https://github.com/heygen-com/hyperframes",
+      "license": "Apache-2.0",
+      "licenseSource": "README upstream",
+      "verification": "verified: README upstream consultado el 2026-11-08",
+      "install": [
+        "pnpm dlx skills add heygen-com/hyperframes --all",
+        "pnpm dlx hyperframes skills update"
+      ],
+      "installNote": "Upstream documenta estos comandos con npx; el hub usa pnpm dlx (npx está prohibido en este repo). Comandos no ejecutados aquí.",
+      "publishedSkillsUpstream": 9,
+      "skills": [
+        {
+          "name": "hyperframes",
+          "publishedUpstream": true
+        },
+        {
+          "name": "hyperframes-cli",
+          "publishedUpstream": true
+        },
+        {
+          "name": "remotion-to-hyperframes",
+          "publishedUpstream": true
+        },
+        {
+          "name": "animejs",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "css-animations",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "gsap",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "lottie",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "three",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "waapi",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "tailwind",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        },
+        {
+          "name": "website-to-hyperframes",
+          "publishedUpstream": false,
+          "note": "No figura entre las 9 skills publicadas por upstream a 2026-11-08"
+        }
+      ]
+    },
+    {
+      "id": "gsap-skills",
+      "repo": "https://github.com/greensock/gsap-skills",
+      "license": "MIT",
+      "licenseSource": "frontmatter local de los SKILL.md",
+      "verification": "unverified: repo y comando proceden de resultados de búsqueda; README upstream no consultado",
+      "install": [
+        "pnpm dlx skills add https://github.com/greensock/gsap-skills"
+      ],
+      "installNote": "Comando no ejecutado aquí; upstream lo documenta con npx.",
+      "skills": [
+        {
+          "name": "gsap-core"
+        },
+        {
+          "name": "gsap-frameworks"
+        },
+        {
+          "name": "gsap-performance"
+        },
+        {
+          "name": "gsap-plugins"
+        },
+        {
+          "name": "gsap-react"
+        },
+        {
+          "name": "gsap-scrolltrigger"
+        },
+        {
+          "name": "gsap-timeline"
+        },
+        {
+          "name": "gsap-utils"
+        }
+      ]
+    }
+  ]
+}

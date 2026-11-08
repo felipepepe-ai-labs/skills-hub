@@ -28,6 +28,7 @@ Mantener todas las skills versionadas en un solo repositorio y **distribuirlas a
 - `prompts`: prompts globales e instrucciones (contenido copiable legacy).
 - `config/apps.json`: manifiesto de apps detectables, sus rutas y qué fuentes consume cada una.
 - `config/projects.json`: límites y fuentes de `casa` y `workflow`.
+- `config/external-skills.json`: skills de terceros que el hub no versiona (origen, licencia y cómo reinstalarlas); ver `docs/external-skills.md`.
 - `config/sync-map.sh`: mapeos legacy para contenido copiable como `prompts`.
 - `opencode/opencode.managed.json`: fragmento gestionado de `opencode.json` (json-merge).
 - `opencode/AGENTS.md`: bloque gestionado para `.opencode/AGENTS.md`.
