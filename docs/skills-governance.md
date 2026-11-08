@@ -19,7 +19,7 @@ The baseline governance layer is:
 - `core-repository-safety-rules` — local-only repository safety.
 - `quality-skill-quality-gate` — PASS/WARN/FAIL validation checklist.
 
-Existing `projects/casa/skills/common/skills-catalog-maintainer` remains the catalog maintenance reference for naming, modularity, exposure rules, and legacy cleanup. The new governance skills complement it by adding token-efficiency and bounded-output requirements.
+Existing `projects/workflow/skills/common/skills-catalog-maintainer` remains the catalog maintenance reference for naming, modularity, exposure rules, and legacy cleanup. The new governance skills complement it by adding token-efficiency and bounded-output requirements.
 
 ## Creating a New Token-Efficient Skill
 
