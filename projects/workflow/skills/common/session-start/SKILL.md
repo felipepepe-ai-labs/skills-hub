@@ -4,7 +4,7 @@ description: "Session resumption briefing: detects project, git state, last jour
 license: Apache-2.0
 metadata:
   author: Felipe Perez
-  version: "1.7"
+  version: "1.8"
 ---
 
 ## When to Use This Skill
@@ -106,6 +106,7 @@ Return a structured summary:
 **Uncommitted changes:** <N files> | <none>
 **Last session:** <journal date> — <title or first line>
 **Codebase graph:** indexed as of <commit/date> | stale (N behind) | not indexed | unavailable
+**Security:** secure by default and by design apply to all implementation · pending findings: <list> | none
 
 ### Project state
 - <bullet with key metrics from STATE/IMPLEMENTATION_SUMMARY>
@@ -179,6 +180,7 @@ STOP after showing the intake. Do not assume answers, propose code, or begin any
 - **Fail gracefully**: if engram, atlas, codebase-memory-mcp, or any file does not respond/exist → omit that section from the briefing, do not break the flow.
 - **Respect project language**: if CLAUDE.md specifies Spanish (like vi-sdd, homelab), the briefing goes in Spanish. English by default.
 - **Do not suggest code changes** in the briefing. The next-step suggestion is "which task to tackle", not "which line to edit".
+- **Security by default and by design**: every implementation that follows this session must take security into account from the start (secure defaults, least privilege, validated input, no secrets in code), not as a later review step. Surface any pending security finding found in STATE/journal/IMPLEMENTATION_SUMMARY in the briefing.
 
 ---
 

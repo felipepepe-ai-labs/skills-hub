@@ -7,6 +7,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Cambiado
+
+- `session-start`, `session-end`, `sdd` y `db-architect` incorporan la regla de seguridad por defecto y por diseño: la seguridad se trata como entrada de diseño y no como revisión posterior; los resúmenes de sesión muestran los hallazgos de seguridad pendientes.
+
 ## [5.0.0] - 2026-08-22
 
 ### Añadido

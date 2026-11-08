@@ -4,7 +4,7 @@ description: "Orchestrator for the full SDD cycle: phases, gates, real OpenSpec 
 license: Apache-2.0
 metadata:
   author: Felipe Pérez + gentleman-programming
-  version: "3.0"
+  version: "3.1"
 ---
 
 ## Role
@@ -266,6 +266,7 @@ Before invoking `sdd-verify`, follow the protocol in `skills/_shared/skill-resol
 7. **Strict TDD is always on** — no config flag disables it; a missing test runner is a blocking gap, not an opt-out
 8. **`sdd archive` requires a GitFlow-compliant commit/PR** (`gitflow` skill) and an EU AI Act traceability entry before closing
 9. **Save a company-memory observation to Engram at every phase transition** — additive to `openspec/`, never a replacement; skip only if Engram is unavailable this session
+10. **Security by default and by design** — every phase (propose, spec, design, apply) treats security as a design input, not a later review step: secure defaults, least privilege, validated input, no secrets in code. The mandatory security reviewers in verify confirm it; they do not replace it
 
 ## Output contract
 
