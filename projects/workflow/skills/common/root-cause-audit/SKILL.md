@@ -63,7 +63,7 @@ Record verdict, counts and evidence per hypothesis. Repeat until none is pending
 For each confirmed cause: evidence (data + code), affected count, solutions with tradeoffs, and **blast radius** (`trace_path(direction="inbound")` on the code to change). Separate decisions that belong to the business from technical ones and list them as `PENDING DECISION`. Use `assets/audit-report-template.md`.
 
 ### Phase 6 — Remediation tool (optional, gate)
-Only if the user wants to repair the affected records. Build it from `assets/remediation-tool-template.md`: modes `CHECK` → `SIMULATE` → `EXECUTE`, summary table `logs`, per-item table `trazas`. Items awaiting business decision are listed as `PENDING DECISION` and **never executed**. `EXECUTE` must refuse to run without a prior `SIMULATE` recorded in `logs`. After the fix, re-run the phase 2 sweep for the same pattern to catch siblings.
+Only if the user wants to repair the affected records. Build it from `assets/remediation-tool-template.md`: modes `CHECK` → `SIMULATE` → `EXECUTE`, summary table `logs`, per-item table `trazas`. Items awaiting business decision are listed as `PENDING DECISION` and **never executed**. `EXECUTE` must refuse to run without a prior `SIMULATE` recorded in `logs`. After the fix, re-run the phase 2 sweep for the same pattern to catch siblings. To sweep the rest of the code proactively for the same shapes, with code tests and data checks, offer the `silent-failure-probe` skill.
 
 ### Phase 7 — Report and close
 Produce the final report (`.docx` via the `docx` skill if available, otherwise Markdown) with numbers, charts where they help, confirmed/discarded table and pending decisions. Then `mem_session_summary`.

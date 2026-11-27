@@ -10,6 +10,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 ### Añadido
 
 - `root-cause-audit` (common): auditoría de causa raíz basada en evidencia para errores y fallos silenciosos. Mapea el código con el grafo cbm (indexa el proyecto si hace falta y continúa), formula hipótesis con `file:line`, las valida con consultas de solo lectura que ejecuta el usuario (doble evidencia datos + código), genera el informe y registra cada fase en Engram. Incluye plantilla opcional de herramienta de remediación CHECK/SIMULATE/EXECUTE con tablas `logs`/`trazas`.
+- `silent-failure-probe` (common): skill compañera preventiva de `root-cause-audit`. Barre el código con cbm buscando puntos donde puede haber fallos silenciosos (incluidos los de ausencia de datos: config, mapeos, roles de baja), los puntúa por riesgo y genera pruebas de código (la rama muda debe avisar) y consultas de datos de solo lectura. Clasifica cada punto como `ACTIVE`, `LATENT` o `COVERED` y entrega los activos a `root-cause-audit`. Reutiliza el catálogo de patrones y el agente `silent-failure-hunter` si está instalado.
 
 ## [5.0.0] - 2026-08-22
 
